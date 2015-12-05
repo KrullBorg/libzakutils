@@ -6,11 +6,13 @@ AM_CPPFLAGS = $(ZAKUTILS_CFLAGS) \
 
 lib_LTLIBRARIES = libzakutils.la
 
-libzakutils_la_SOURCES =
+libzakutils_la_SOURCES = \
+                         generic.c
 
 libzakutils_la_LDFLAGS = -no-undefined
 
 libzakutils_include_HEADERS = \
-                             libzakutils.h
+                              libzakutils.h \
+                              generic.h
 
 libzakutils_includedir = $(includedir)/libzakutils

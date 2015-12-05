@@ -16,11 +16,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef __LIBZAKUTILS_H__
-#define __LIBZAKUTILS_H__
+#ifndef __ZAK_UTILS_H__
+#define __ZAK_UTILS_H__
 
 
-#include <libzakutils/generic.h>
+#include <glib.h>
+#include <glib-object.h>
 
 
-#endif /* __LIBZAKUTILS_H__ */
+G_BEGIN_DECLS
+
+
+gdouble zak_utils_round (gdouble value, guint n_decimals);
+
+void zak_utils_gstring_initial_capital (GString *gstring);
+
+int zak_utils_compare_version (const gchar *ver1, const gchar *ver2, const gchar *delimiters, guint *part);
+
+GValue *zak_utils_gvalue_new_int (int i);
+GValue *zak_utils_gvalue_new_string (const gchar *str);
+GValue *zak_utils_gvalue_new_boolean (gboolean b);
+GValue *zak_utils_gvalue_new_float (gfloat f);
+
+
+G_END_DECLS
+
+
+#endif /* __ZAK_UTILS_H__ */
