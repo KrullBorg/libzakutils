@@ -22,6 +22,7 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 #include "generic.h"
 
@@ -241,4 +242,47 @@ GValue
 	g_value_set_float (gval, f);
 
 	return gval;
+}
+
+/**
+ * zak_utils_str_to_boolean:
+ * @value:
+ *
+ * Utility function to convert a string to its #gboolean equivalent.
+ *
+ * Returns: the #gboolean equivalent from @value.
+ */
+gboolean
+zak_utils_str_to_boolean (const gchar *str)
+{
+	gchar *str_value;
+	gboolean bool_value;
+
+	if (str == NULL)
+		{
+			return FALSE;
+		}
+
+	str_value = g_strstrip (g_strdup (str));
+
+	if (strcmp (str_value, "0") == 0
+			|| strcasecmp (str_value, "f") == 0
+			|| strcasecmp (str_value, "false") == 0
+			|| strcasecmp (str_value, "n") == 0
+			|| strcasecmp (str_value, "no") == 0)
+		{
+			bool_value = FALSE;
+		}
+	else if (strcmp (str_value, "1") == 0
+			|| strcasecmp (str_value, "t") == 0
+			|| strcasecmp (str_value, "true") == 0
+			|| strcasecmp (str_value, "y") == 0
+			|| strcasecmp (str_value, "yes") == 0)
+		{
+			bool_value = TRUE;
+		}
+
+	g_free (str_value);
+
+	return bool_value;
 }

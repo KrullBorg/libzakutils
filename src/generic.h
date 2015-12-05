@@ -38,6 +38,8 @@ GValue *zak_utils_gvalue_new_string (const gchar *str);
 GValue *zak_utils_gvalue_new_boolean (gboolean b);
 GValue *zak_utils_gvalue_new_float (gfloat f);
 
+gboolean zak_utils_str_to_boolean (const gchar *str);
+
 
 G_END_DECLS
 
