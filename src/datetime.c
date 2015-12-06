@@ -230,6 +230,40 @@ const gchar
 }
 
 /**
+ * zak_utils_get_tm_from_string:
+ * @string: the #gchar to be parsed.
+ * @format:
+ *
+ */
+struct tm
+*zak_utils_get_tm_from_string (const gchar *string, const gchar *format)
+{
+	struct tm *ret;
+
+	GDateTime *gdatetime;
+
+	ret = NULL;
+
+	gdatetime = zak_utils_get_gdatetime_from_string (string, format);
+
+	if (gdatetime != NULL)
+		{
+			ret = g_malloc0 (sizeof (struct tm));
+			ret->tm_year = g_date_time_get_year (gdatetime) - 1900;
+			ret->tm_mon = g_date_time_get_month (gdatetime) - 1;
+			ret->tm_mday = g_date_time_get_day_of_month (gdatetime);
+			ret->tm_hour = g_date_time_get_hour (gdatetime);
+			ret->tm_min = g_date_time_get_minute (gdatetime);
+			ret->tm_sec = g_date_time_get_second (gdatetime);
+			mktime (ret);
+
+			g_object_unref (gdatetime);
+		}
+
+	return ret;
+}
+
+/**
  * zak_utils_get_gdate_from_string:
  * @string:
  * @format:
@@ -424,6 +458,46 @@ GDateTime
 			                             minute,
 			                             seconds);
 		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_tm_format:
+ * @tm_date: a tm struct.
+ * @format:
+ *
+ * Returns: a string representation of @tm_date based on the format in @format.
+ * It interprets a very little subset of format identifiers from strftime.
+ * %Y: the year with 4 digits.
+ * %m: the month with 2 digits.
+ * %d: the day with 2 digits.
+ * %H: the hours with 2 digits 00-24.
+ * %M: the minutes with 2 digits 00-59.
+ * %S: the seconds with 2 digits 00-59.
+ */
+gchar
+*zak_utils_tm_format (struct tm *tm_date,
+					  const gchar *format)
+{
+	gchar *ret;
+
+	ret = g_strdup ("");
+
+	g_return_val_if_fail (tm_date != NULL, ret);
+
+	ret = zak_utils_string_replace (format, "%Y",
+									g_strdup_printf ("%04u", tm_date->tm_year + 1900));
+	ret = zak_utils_string_replace (ret, "%m",
+									g_strdup_printf ("%02u", tm_date->tm_mon + 1));
+	ret = zak_utils_string_replace (ret, "%d",
+									g_strdup_printf ("%02u", tm_date->tm_mday));
+	ret = zak_utils_string_replace (ret, "%H",
+									g_strdup_printf ("%02u", tm_date->tm_hour));
+	ret = zak_utils_string_replace (ret, "%M",
+									g_strdup_printf ("%02u", tm_date->tm_min));
+	ret = zak_utils_string_replace (ret, "%S",
+									g_strdup_printf ("%02u", tm_date->tm_sec));
 
 	return ret;
 }

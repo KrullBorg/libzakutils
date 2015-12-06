@@ -40,8 +40,11 @@ const gchar *zak_utils_tm_to_sql (struct tm *tm_date, const gchar *format);
 const gchar *zak_utils_gdate_to_sql (GDate *gdate, const gchar *format);
 const gchar *zak_utils_gdatetime_to_sql (GDateTime *gdatetime, const gchar *format);
 
+struct tm *zak_utils_get_tm_from_string (const gchar *string, const gchar *format);
 GDate *zak_utils_get_gdate_from_string (const gchar *string, const gchar *format);
 GDateTime *zak_utils_get_gdatetime_from_string (const gchar *string, const gchar *format);
+
+gchar *zak_utils_tm_format (struct tm *tm_date, const gchar *format);
 gchar *zak_utils_gdate_format (GDate *gdate, const gchar *format);
 gchar *zak_utils_gdatetime_format (GDateTime *gdatetime, const gchar *format);
 
