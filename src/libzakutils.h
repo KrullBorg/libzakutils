@@ -21,6 +21,7 @@
 
 
 #include <libzakutils/generic.h>
+#include <libzakutils/datetime.h>
 
 
 #endif /* __LIBZAKUTILS_H__ */

@@ -30,6 +30,10 @@ G_BEGIN_DECLS
 
 gboolean zak_utils_file_exists (const gchar *filename);
 
+gchar *zak_utils_string_replace (const gchar *string,
+								 const gchar *origin,
+								 const gchar *replace);
+
 gdouble zak_utils_round (gdouble value, guint n_decimals);
 
 gchar *zak_utils_format_money (gdouble number, gint decimals, gboolean with_currency_symbol);

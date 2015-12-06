@@ -47,6 +47,38 @@ zak_utils_file_exists (const gchar *filename)
 }
 
 /**
+ * zak_utils_string_replace:
+ * @string:
+ * @origin:
+ * @replace:
+ *
+ */
+gchar
+*zak_utils_string_replace (const gchar *string,
+						   const gchar *origin,
+						   const gchar *replace)
+{
+	gchar *ret;
+	gchar *p;
+
+	if (string == NULL) return NULL;
+	if (origin == NULL || replace == NULL) return g_strdup (string);
+
+	p = g_strstr_len (string, -1, origin);
+
+	if (p == NULL)
+		{
+			return g_strdup (string);
+		}
+
+	ret = g_strndup (string, p - string);
+
+	ret = g_strdup_printf ("%s%s%s", ret, replace, p + strlen (origin));
+
+	return ret;
+}
+
+/**
  * zak_utils_round:
  * @value:
  * @n_decimals:

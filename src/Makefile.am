@@ -7,12 +7,14 @@ AM_CPPFLAGS = $(ZAKUTILS_CFLAGS) \
 lib_LTLIBRARIES = libzakutils.la
 
 libzakutils_la_SOURCES = \
-                         generic.c
+                         generic.c \
+                         datetime.c
 
 libzakutils_la_LDFLAGS = -no-undefined
 
 libzakutils_include_HEADERS = \
                               libzakutils.h \
-                              generic.h
+                              generic.h \
+                              datetime.h
 
 libzakutils_includedir = $(includedir)/libzakutils
