@@ -22,10 +22,13 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <gio/gio.h>
 
 
 G_BEGIN_DECLS
 
+
+gboolean zak_utils_file_exists (const gchar *filename);
 
 gdouble zak_utils_round (gdouble value, guint n_decimals);
 

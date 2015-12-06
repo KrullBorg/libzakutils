@@ -26,6 +26,26 @@
 
 #include "generic.h"
 
+
+/**
+ * zak_utils_file_exists:
+ * @filename:
+ *
+ */
+gboolean
+zak_utils_file_exists (const gchar *filename)
+{
+	gboolean ret;
+
+	GFile *f = g_file_new_for_path (filename);
+
+	ret = g_file_query_exists (f, NULL);
+
+	g_object_unref (f);
+
+	return ret;
+}
+
 /**
  * zak_utils_round:
  * @value:
