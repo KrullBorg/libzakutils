@@ -388,6 +388,23 @@ GValue
 }
 
 /**
+ * zak_utils_gvalue_new_gdatetime:
+ * @datetime:
+ *
+ */
+GValue
+*zak_utils_gvalue_new_gdatetime (GDateTime *datetime)
+{
+	GValue *gval;
+
+	gval = g_new0 (GValue, 1);
+	g_value_init (gval, G_TYPE_DATE_TIME);
+	g_value_set_boxed (gval, datetime);
+
+	return gval;
+}
+
+/**
  * zak_utils_str_to_boolean:
  * @value:
  *

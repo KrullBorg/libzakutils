@@ -43,6 +43,7 @@ GValue *zak_utils_gvalue_new_int (int i);
 GValue *zak_utils_gvalue_new_string (const gchar *str);
 GValue *zak_utils_gvalue_new_boolean (gboolean b);
 GValue *zak_utils_gvalue_new_float (gfloat f);
+GValue *zak_utils_gvalue_new_gdatetime (GDateTime *datetime);
 
 gboolean zak_utils_str_to_boolean (const gchar *str);
 
