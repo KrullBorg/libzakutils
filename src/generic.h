@@ -32,6 +32,9 @@ gboolean zak_utils_file_exists (const gchar *filename);
 
 gdouble zak_utils_round (gdouble value, guint n_decimals);
 
+gchar *zak_utils_format_money (gdouble number, gint decimals, gboolean with_currency_symbol);
+gdouble zak_utils_unformat_money (const gchar *value);
+
 void zak_utils_gstring_initial_capital (GString *gstring);
 
 int zak_utils_compare_version (const gchar *ver1, const gchar *ver2, const gchar *delimiters, guint *part);

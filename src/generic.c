@@ -70,6 +70,129 @@ zak_utils_round (gdouble value, guint n_decimals)
 }
 
 /**
+ * zak_utils_format_money:
+ * @number:
+ * @decimals:
+ * with_currency_symbol:
+ *
+ */
+gchar
+*zak_utils_format_money (gdouble number,
+						 gint decimals,
+						 gboolean with_currency_symbol)
+{
+	gchar *ret;
+
+	GRegex *regex;
+	GError *error;
+
+	gchar *str_format;
+	gchar *str;
+	gssize str_len;
+
+	/* TODO
+	 * - get number of decimals from locale
+	 * - get grouping char from locale
+	 * - get currency symbol from locale
+	 */
+
+	ret = g_strdup ("");
+
+	error = NULL;
+	regex = g_regex_new ("(^[-\\d]?\\d+)(\\d\\d\\d)", 0, 0, &error);
+	if (regex == NULL || error != NULL)
+		{
+			g_warning ("Error on creating regex: %s.",
+			           error->message != NULL ? error->message : "no details");
+			return "";
+		}
+
+	str_format = g_strdup_printf ("%%0%sf", decimals == 0 ? ".0" : (decimals < 0 ? ".2" : g_strdup_printf (".%d", decimals)));
+	ret = g_strdup_printf (str_format, number);
+
+	while (TRUE)
+		{
+			error = NULL;
+			str_len = g_utf8_strlen (ret, -1);
+			str = g_regex_replace ((const GRegex *)regex,
+			                       ret, str_len, 0,
+			                       "\\1.\\2", 0,
+			                       &error);
+			if (error != NULL)
+				{
+					g_warning ("Error on regex replacing: %s.",
+					           error->message != NULL ? error->message : "no details");
+					g_regex_unref (regex);
+					return "";
+				}
+			if (g_strcmp0 (ret, str) != 0)
+				{
+					ret = g_strdup (str);
+					g_free (str);
+				}
+			else
+				{
+					break;
+				}
+		}
+
+	if (with_currency_symbol)
+		{
+			ret = g_strconcat ("€ ", ret, NULL);
+		}
+
+	g_regex_unref (regex);
+
+	return ret;
+}
+
+/**
+ * zak_utils_unformat_money:
+ * @value:
+ *
+ */
+gdouble
+zak_utils_unformat_money (const gchar *value)
+{
+	gdouble ret;
+
+	GRegex *regex;
+	GError *error;
+
+	gchar *str;
+
+	ret = 0.0;
+
+	error = NULL;
+	regex = g_regex_new ("[€ .]", 0, 0, &error);
+	if (error != NULL)
+		{
+			g_warning ("Error on creating regex: %s.",
+			           error->message != NULL ? error->message : "no details");
+			return ret;
+		}
+
+	error = NULL;
+	str = g_regex_replace ((const GRegex *)regex,
+	                       value, -1, 0,
+	                       "", 0,
+	                       &error);
+	if (error != NULL)
+		{
+			g_warning ("Error on regex replacing: %s.",
+			           error->message != NULL ? error->message : "no details");
+			g_regex_unref (regex);
+			return ret;
+		}
+
+	ret = g_strtod (str, NULL);
+
+	g_regex_unref (regex);
+
+	return ret;
+}
+
+/**
  * zak_utils_gstring_initial_capital:
  * @gstring:
  *
