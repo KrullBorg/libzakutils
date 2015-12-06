@@ -78,6 +78,46 @@ GDateTime
 	return ret;
 }
 
+
+/**
+ * zak_utils_tm_to_gdate:
+ * @tm_date:
+ *
+ * Returns: a #GDate that represent the struct tm without time information.
+ */
+GDate
+*zak_utils_tm_to_gdate (struct tm *tm_date)
+{
+	GDate *ret;
+
+	ret = NULL;
+
+	if (tm_date != NULL)
+		{
+			ret = g_date_new_dmy (tm_date->tm_mday,
+			                      tm_date->tm_mon + 1,
+			                      tm_date->tm_year + 1900);
+
+			if (ret == NULL || !g_date_valid (ret))
+				{
+					ret = NULL;
+				}
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_tm_to_gdate:
+ * @gdate:
+ *
+ */
+struct tm
+*zak_utils_gdate_to_tm (GDate *gdate)
+{
+	return zak_utils_gdatetime_to_tm (zak_utils_gdate_to_gdatetime (gdate));
+}
+
 /**
  * zak_utils_gdatetime_to_tm:
  * @gdatetime:

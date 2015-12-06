@@ -31,6 +31,9 @@ struct tm *zak_utils_get_now_tm (void);
 GDate *zak_utils_get_today_gdate (void);
 
 GDateTime *zak_utils_tm_to_gdatetime (struct tm *tm_date);
+GDate *zak_utils_tm_to_gdate (struct tm *tm_date);
+
+struct tm *zak_utils_gdate_to_tm (GDate *gdate);
 struct tm *zak_utils_gdatetime_to_tm (GDateTime *gdatetime);
 
 GDateTime *zak_utils_gdate_to_gdatetime (GDate *gdate);
