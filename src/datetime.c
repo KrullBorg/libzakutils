@@ -393,7 +393,7 @@ GDateTime
 			return NULL;
 		}
 
-	str_tokens = g_strsplit_set (string, delimiters, -1);
+	str_tokens = g_strsplit_set (new_str, delimiters, -1);
 	if (str_tokens == NULL)
 		{
 			g_free (delimiters);
@@ -402,7 +402,7 @@ GDateTime
 			return NULL;
 		}
 
-	format_tokens = g_strsplit_set (format, delimiters, -1);
+	format_tokens = g_strsplit_set (new_format, delimiters, -1);
 	if (format_tokens == NULL)
 		{
 			g_free (delimiters);
