@@ -39,7 +39,9 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 AM_GLIB_GNU_GETTEXT
 
 # Checks for libraries.
-PKG_CHECK_MODULES(ZAKUTILS, [glib-2.0 >= 2.36])
+PKG_CHECK_MODULES(ZAKUTILS, [glib-2.0 >= 2.36
+                             gobject-2.0 >= 2.36
+                             gio-2.0 >= 2.36])
 
 AC_SUBST(ZAKUTILS_CFLAGS)
 AC_SUBST(ZAKUTILS_LIBS)
