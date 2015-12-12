@@ -49,7 +49,7 @@ GValue *zak_utils_gvalue_new_boolean (gboolean b);
 GValue *zak_utils_gvalue_new_float (gfloat f);
 GValue *zak_utils_gvalue_new_gdatetime (GDateTime *datetime);
 
-gboolean zak_utils_str_to_boolean (const gchar *str);
+gboolean zak_utils_string_to_boolean (const gchar *str);
 
 
 G_END_DECLS

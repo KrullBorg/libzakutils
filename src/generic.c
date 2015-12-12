@@ -437,7 +437,7 @@ GValue
 }
 
 /**
- * zak_utils_str_to_boolean:
+ * zak_utils_string_to_boolean:
  * @value:
  *
  * Utility function to convert a string to its #gboolean equivalent.
@@ -445,7 +445,7 @@ GValue
  * Returns: the #gboolean equivalent from @value.
  */
 gboolean
-zak_utils_str_to_boolean (const gchar *str)
+zak_utils_string_to_boolean (const gchar *str)
 {
 	gchar *str_value;
 	gboolean bool_value;
