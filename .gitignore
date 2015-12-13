@@ -50,3 +50,4 @@ intltool-*
 Rules-quot
 *.exe
 *.csv
+tests/format_money

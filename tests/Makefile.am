@@ -8,4 +8,7 @@ LIBS = $(ZAKUTILS_LIBS) \
 
 LDADD = $(top_builddir)/src/libzakutils.la
 
-noinst_PROGRAMS =
+noinst_PROGRAMS = \
+                  format_money
+
+format_money_LDADD = $(top_builddir)/src/libzakutils.la -lm

@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <locale.h>
 
 #include "generic.h"
 
@@ -124,9 +125,13 @@ gchar
 
 	/* TODO
 	 * - get number of decimals from locale
-	 * - get grouping char from locale
-	 * - get currency symbol from locale
 	 */
+	struct lconv *localeinfo;
+
+	setlocale (LC_NUMERIC, "");
+	setlocale (LC_MONETARY, "");
+
+	localeinfo = localeconv ();
 
 	ret = g_strdup ("");
 
@@ -148,7 +153,7 @@ gchar
 			str_len = g_utf8_strlen (ret, -1);
 			str = g_regex_replace ((const GRegex *)regex,
 			                       ret, str_len, 0,
-			                       "\\1.\\2", 0,
+			                       g_strdup_printf ("\\1%s\\2", localeinfo->mon_thousands_sep), 0,
 			                       &error);
 			if (error != NULL)
 				{
@@ -170,7 +175,7 @@ gchar
 
 	if (with_currency_symbol)
 		{
-			ret = g_strconcat ("€ ", ret, NULL);
+			ret = g_strconcat (localeinfo->currency_symbol, " ", ret, NULL);
 		}
 
 	g_regex_unref (regex);
@@ -193,10 +198,17 @@ zak_utils_unformat_money (const gchar *value)
 
 	gchar *str;
 
+	struct lconv *localeinfo;
+
 	ret = 0.0;
 
+	setlocale (LC_NUMERIC, "");
+	setlocale (LC_MONETARY, "");
+
+	localeinfo = localeconv ();
+
 	error = NULL;
-	regex = g_regex_new ("[€ .]", 0, 0, &error);
+	regex = g_regex_new (g_strdup_printf ("[%s %s]", localeinfo->currency_symbol, localeinfo->mon_thousands_sep), 0, 0, &error);
 	if (error != NULL)
 		{
 			g_warning ("Error on creating regex: %s.",
