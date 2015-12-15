@@ -103,16 +103,18 @@ zak_utils_round (gdouble value, guint n_decimals)
 }
 
 /**
- * zak_utils_format_money:
+ * zak_utils_format_money_full:
  * @number:
  * @decimals:
- * with_currency_symbol:
+ * @thousands_separator:
+ * @currency_symbol:
  *
  */
 gchar
-*zak_utils_format_money (gdouble number,
-						 gint decimals,
-						 gboolean with_currency_symbol)
+*zak_utils_format_money_full (gdouble number,
+							  gint decimals,
+							  const gchar *thousands_separator,
+							  const gchar *currency_symbol)
 {
 	gchar *ret;
 
@@ -153,7 +155,7 @@ gchar
 			str_len = g_utf8_strlen (ret, -1);
 			str = g_regex_replace ((const GRegex *)regex,
 			                       ret, str_len, 0,
-			                       g_strdup_printf ("\\1%s\\2", localeinfo->mon_thousands_sep), 0,
+			                       g_strdup_printf ("\\1%s\\2", thousands_separator == NULL ? localeinfo->mon_thousands_sep : thousands_separator), 0,
 			                       &error);
 			if (error != NULL)
 				{
@@ -173,9 +175,9 @@ gchar
 				}
 		}
 
-	if (with_currency_symbol)
+	if (currency_symbol != NULL)
 		{
-			ret = g_strconcat (localeinfo->currency_symbol, " ", ret, NULL);
+			ret = g_strconcat (g_strcmp0 (currency_symbol, "") == 0 ? localeinfo->currency_symbol : currency_symbol, " ", ret, NULL);
 		}
 
 	g_regex_unref (regex);
@@ -184,12 +186,31 @@ gchar
 }
 
 /**
- * zak_utils_unformat_money:
+ * zak_utils_format_money:
+ * @number:
+ * @decimals:
+ * @with_currency_symbol:
+ *
+ */
+gchar
+*zak_utils_format_money (gdouble number,
+						 gint decimals,
+						 gboolean with_currency_symbol)
+{
+	return zak_utils_format_money_full (number, decimals, NULL, "");
+}
+
+/**
+ * zak_utils_unformat_money_full:
  * @value:
+ * @thousand_separator:
+ * @currency_symbol:
  *
  */
 gdouble
-zak_utils_unformat_money (const gchar *value)
+zak_utils_unformat_money_full (const gchar *value,
+							   const gchar *thousands_separator,
+							   const gchar *currency_symbol)
 {
 	gdouble ret;
 
@@ -208,7 +229,9 @@ zak_utils_unformat_money (const gchar *value)
 	localeinfo = localeconv ();
 
 	error = NULL;
-	regex = g_regex_new (g_strdup_printf ("[%s %s]", localeinfo->currency_symbol, localeinfo->mon_thousands_sep), 0, 0, &error);
+	regex = g_regex_new (g_strdup_printf ("[%s %s]",
+										  currency_symbol != NULL && g_strcmp0 (currency_symbol, "") != 0 ? currency_symbol : localeinfo->currency_symbol,
+										  thousands_separator != NULL ? thousands_separator : localeinfo->mon_thousands_sep), 0, 0, &error);
 	if (error != NULL)
 		{
 			g_warning ("Error on creating regex: %s.",
@@ -234,6 +257,17 @@ zak_utils_unformat_money (const gchar *value)
 	g_regex_unref (regex);
 
 	return ret;
+}
+
+/**
+ * zak_utils_unformat_money:
+ * @value:
+ *
+ */
+gdouble
+zak_utils_unformat_money (const gchar *value)
+{
+	return zak_utils_unformat_money_full (value, NULL, NULL);
 }
 
 /**

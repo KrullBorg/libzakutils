@@ -36,7 +36,9 @@ gchar *zak_utils_string_replace (const gchar *string,
 
 gdouble zak_utils_round (gdouble value, guint n_decimals);
 
+gchar *zak_utils_format_money_full (gdouble number, gint decimals, const gchar *thousands_separator, const gchar *currency_symbol);
 gchar *zak_utils_format_money (gdouble number, gint decimals, gboolean with_currency_symbol);
+gdouble zak_utils_unformat_money_full (const gchar *value, const gchar *thousands_separator, const gchar *currency_symbol);
 gdouble zak_utils_unformat_money (const gchar *value);
 
 void zak_utils_gstring_initial_capital (GString *gstring);

@@ -571,11 +571,11 @@ gchar
 {
 	gchar *ret;
 
-	if (gdatetime == NULL) return "";
+	if (gdatetime == NULL) return g_strdup ("");
 
 	ret = g_date_time_format (gdatetime, format);
 
-	if (ret == NULL) return "";
+	if (ret == NULL) return g_strdup ("");
 
 	return ret;
 }
