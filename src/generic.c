@@ -197,7 +197,7 @@ gchar
 						 gint decimals,
 						 gboolean with_currency_symbol)
 {
-	return zak_utils_format_money_full (number, decimals, NULL, "");
+	return zak_utils_format_money_full (number, decimals, NULL, with_currency_symbol ? "" : NULL);
 }
 
 /**
