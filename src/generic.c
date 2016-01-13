@@ -501,6 +501,8 @@ zak_utils_string_to_boolean (const gchar *str)
 			return FALSE;
 		}
 
+	bool_value = FALSE;
+
 	str_value = g_strstrip (g_strdup (str));
 
 	if (strcmp (str_value, "0") == 0
