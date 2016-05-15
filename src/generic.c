@@ -509,7 +509,8 @@ zak_utils_string_to_boolean (const gchar *str)
 			|| strcasecmp (str_value, "f") == 0
 			|| strcasecmp (str_value, "false") == 0
 			|| strcasecmp (str_value, "n") == 0
-			|| strcasecmp (str_value, "no") == 0)
+			|| strcasecmp (str_value, "no") == 0
+			|| strcasecmp (str_value, "off") == 0)
 		{
 			bool_value = FALSE;
 		}
@@ -517,7 +518,8 @@ zak_utils_string_to_boolean (const gchar *str)
 			|| strcasecmp (str_value, "t") == 0
 			|| strcasecmp (str_value, "true") == 0
 			|| strcasecmp (str_value, "y") == 0
-			|| strcasecmp (str_value, "yes") == 0)
+			|| strcasecmp (str_value, "yes") == 0
+			|| strcasecmp (str_value, "on") == 0)
 		{
 			bool_value = TRUE;
 		}
