@@ -1,0 +1,22 @@
+Source: libzakutils
+Priority: optional
+Maintainer: Andrea Zagli <azagli@libero.it>
+Build-Depends: debhelper (>=9), libglib2.0-dev, intltool, libtool, pkg-config
+Standards-Version: 3.9.8
+Section: libs
+Homepage: http://saetta.ns0.it
+#Vcs-Git: git://anonscm.debian.org/collab-maint/libzakutils.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/libzakutils.git
+
+Package: libzakutils-dev
+Section: libdevel
+Architecture: any
+Depends: libzakutils (= ${binary:Version}), ${misc:Depends}, libglib2.0-dev
+Description: GLib library with some utilities functions - development files
+ GLib library with some utilities functions.
+
+Package: libzakutils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: GLib library with some utilities functions
+ GLib library with some utilities functions.
