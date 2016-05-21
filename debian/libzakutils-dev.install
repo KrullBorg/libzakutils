@@ -1,0 +1,4 @@
+usr/include/*
+usr/lib/*/libzakutils.a
+usr/lib/*/libzakutils.la
+usr/lib/*/pkgconfig/*
