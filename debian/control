@@ -1,7 +1,7 @@
 Source: libzakutils
 Priority: optional
 Maintainer: Andrea Zagli <azagli@libero.it>
-Build-Depends: debhelper (>=9), libglib2.0-dev, intltool, pkg-config
+Build-Depends: debhelper (>=9), libglib2.0-dev, intltool, pkg-config, libtool
 Standards-Version: 3.9.8
 Section: libs
 Homepage: http://saetta.ns0.it

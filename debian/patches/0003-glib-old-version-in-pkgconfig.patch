@@ -1,0 +1,20 @@
+From: Andrea Zagli <azagli@libero.it>
+Date: Mon, 23 May 2016 16:09:17 +0200
+Subject: glib old version in pkgconfig.
+
+---
+ libzakutils.pc.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libzakutils.pc.in b/libzakutils.pc.in
+index 4d07037..4a53041 100644
+--- a/libzakutils.pc.in
++++ b/libzakutils.pc.in
+@@ -7,6 +7,6 @@ modulesdir=@libdir@/@PACKAGE@/modules
+ Name: @PACKAGE_NAME@
+ Description: Utility functions.
+ Version: @PACKAGE_VERSION@
+-Requires: glib-2.0 >= 2.36 gobject-2.0 >= 2.36 gio-2.0 >= 2.36
++Requires: glib-2.0 >= 2.32 gobject-2.0 >= 2.32 gio-2.0 >= 2.32
+ Libs: -L${libdir} -lzakutils
+ Cflags: -I${includedir}
