@@ -11,3 +11,11 @@ inc = include_directories('src')
 
 subdir('src')
 subdir('tests')
+
+pkg_mod = import('pkgconfig')
+pkg_mod.generate(libraries: libzakutils,
+                 version: '0.0.1',
+                 name: 'libzakutils',
+                 filebase: 'libzakutils',
+                 description: 'Utility functions.',
+                 requires: ['glib-2.0 >= 2.36', 'gobject-2.0 >= 2.36', 'gio-2.0 >= 2.36'])
