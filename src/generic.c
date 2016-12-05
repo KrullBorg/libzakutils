@@ -26,6 +26,7 @@
 #include <locale.h>
 
 #include "generic.h"
+#include "datetime.h"
 
 
 /**
@@ -527,4 +528,248 @@ zak_utils_string_to_boolean (const gchar *str)
 	g_free (str_value);
 
 	return bool_value;
+}
+
+/**
+ * zak_utils_ghashtable_get_string:
+ * @ht:
+ * @key:
+ *
+ * Returns:
+ */
+gchar
+*zak_utils_ghashtable_get_string (GHashTable *ht, gconstpointer key)
+{
+	gchar *ret;
+
+	GValue *gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL
+		|| !G_VALUE_HOLDS_STRING (gv))
+		{
+			ret = g_strdup ("");
+		}
+	else
+		{
+			ret = g_value_dup_string (gv);
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_boolean:
+ * @ht:
+ * @key:
+ *
+ * Returns:
+ */
+gboolean
+zak_utils_ghashtable_get_boolean (GHashTable *ht, gconstpointer key)
+{
+	gboolean ret;
+
+	GValue *gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL
+		|| !G_VALUE_HOLDS_BOOLEAN (gv))
+		{
+			if (G_VALUE_HOLDS_STRING (gv))
+				{
+					ret = zak_utils_string_to_boolean (g_value_get_string (gv));
+				}
+			else
+				{
+					ret = FALSE;
+				}
+		}
+	else
+		{
+			ret = g_value_get_boolean (gv);
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_int:
+ * @ht:
+ * @key:
+ *
+ * Returns:
+ */
+gint
+zak_utils_ghashtable_get_int (GHashTable *ht, gconstpointer key)
+{
+	gint ret;
+
+	GValue *gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL
+		|| !G_VALUE_HOLDS_INT (gv))
+		{
+			ret = 0;
+		}
+	else
+		{
+			ret = g_value_get_int (gv);
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_int_format:
+ * @ht:
+ * @key:
+ * @thousands_separator:
+ *
+ * Returns:
+ */
+gchar
+*zak_utils_ghashtable_get_int_format (GHashTable *ht, gconstpointer key, const gchar *thousands_separator)
+{
+	return zak_utils_format_money_full ((gdouble)zak_utils_ghashtable_get_int (ht, key), 0, thousands_separator, NULL);
+}
+
+/**
+ * zak_utils_ghashtable_get_double:
+ * @ht:
+ * @key:
+ *
+ * Returns:
+ */
+gdouble
+zak_utils_ghashtable_get_double (GHashTable *ht, gconstpointer key)
+{
+	gdouble ret;
+
+	GValue *gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL
+		|| !G_VALUE_HOLDS_DOUBLE (gv))
+		{
+			ret = 0;
+		}
+	else
+		{
+			ret = g_value_get_double (gv);
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_double_format:
+ * @ht:
+ * @key:
+ * @decimals
+ * @thousands_separator:
+ * @currency_symbol:
+ *
+ * Returns:
+ */
+gchar
+*zak_utils_ghashtable_get_double_format (GHashTable *ht, gconstpointer key, gint decimals, const gchar *thousands_separator, const gchar *currency_symbol)
+{
+	return zak_utils_format_money_full (zak_utils_ghashtable_get_double (ht, key), decimals, thousands_separator, currency_symbol);
+}
+
+/**
+ * zak_utils_ghashtable_get_float:
+ * @ht:
+ * @key:
+ *
+ * Returns:
+ */
+gfloat
+zak_utils_ghashtable_get_float (GHashTable *ht, gconstpointer key)
+{
+	gfloat ret;
+
+	GValue *gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL
+		|| !G_VALUE_HOLDS_FLOAT (gv))
+		{
+			ret = 0;
+		}
+	else
+		{
+			ret = g_value_get_float (gv);
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_float_format:
+ * @ht:
+ * @key:
+ * @decimals
+ * @thousands_separator:
+ * @currency_symbol:
+ *
+ * Returns:
+ */
+gchar
+*zak_utils_ghashtable_get_float_format (GHashTable *ht, gconstpointer key, gint decimals, const gchar *thousands_separator, const gchar *currency_symbol)
+{
+	return zak_utils_format_money_full ((gdouble)zak_utils_ghashtable_get_float (ht, key), decimals, thousands_separator, currency_symbol);
+}
+
+/**
+ * zak_utils_ghashtable_get_gdatetime:
+ * @ht:
+ * @key:
+ *
+ * Returns:
+ */
+GDateTime
+*zak_utils_ghashtable_get_gdatetime (GHashTable *ht, gconstpointer key)
+{
+	GDateTime *ret;
+
+	GValue *gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL
+		|| !G_VALUE_HOLDS_POINTER (gv))
+		{
+			ret = NULL;
+		}
+	else
+		{
+			ret = (GDateTime *)g_value_get_pointer (gv);
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_gdatetime_format:
+ * @ht:
+ * @key:
+ * @format:
+ *
+ * Returns:
+ */
+gchar
+*zak_utils_ghashtable_get_gdatetime_format (GHashTable *ht, gconstpointer key, const gchar *format)
+{
+	gchar *ret;
+
+	GDateTime *gdt;
+
+	gdt = zak_utils_ghashtable_get_gdatetime (ht, key);
+	ret = zak_utils_gdatetime_format (gdt, format);
+
+	g_date_time_unref (gdt);
+
+	return ret;
 }
