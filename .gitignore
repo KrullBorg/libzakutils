@@ -51,4 +51,5 @@ Rules-quot
 *.exe
 *.csv
 tests/format_money
+tests/gdatetime_from_string
 build/
