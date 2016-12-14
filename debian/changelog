@@ -1,5 +1,10 @@
-libzakutils (0.0.1-1) UNRELEASED; urgency=medium
+libzakutils (0.0.1-1~1.gbp4727e8) UNRELEASED; urgency=medium
 
+  ** SNAPSHOT build @4727e802db11104c374fe8eb9a234287a3ce6a74 **
+
+  [ Andrea Zagli ]
   * Initial release
+
+  [ tux ]
 
  -- Andrea Zagli <azagli@libero.it>  Sat, 21 May 2016 10:30:59 +0200
