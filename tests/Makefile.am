@@ -6,9 +6,8 @@ AM_CPPFLAGS = $(WARN_CFLAGS) \
 LIBS = $(ZAKUTILS_LIBS) \
        -export-dynamic
 
-LDADD = $(top_builddir)/src/libzakutils.la
+LDADD = $(top_builddir)/src/libzakutils.la -lm
 
 noinst_PROGRAMS = \
-                  format_money
-
-format_money_LDADD = $(top_builddir)/src/libzakutils.la -lm
+                  format_money \
+                  gdatetime_from_string
