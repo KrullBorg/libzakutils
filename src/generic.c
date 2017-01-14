@@ -815,7 +815,7 @@ GDateTime
 				{
 					if (G_VALUE_HOLDS_POINTER (gv))
 						{
-							ret = (GDateTime *)g_value_get_pointer (gv);
+							ret = g_date_time_ref ((GDateTime *)g_value_get_pointer (gv));
 						}
 					else
 						{
