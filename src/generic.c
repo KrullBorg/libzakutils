@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Andrea Zagli <azagli@libero.it>
+ * Copyright (C) 2015-2017 Andrea Zagli <azagli@libero.it>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -816,6 +816,10 @@ GDateTime
 					if (G_VALUE_HOLDS_POINTER (gv))
 						{
 							ret = g_date_time_ref ((GDateTime *)g_value_get_pointer (gv));
+						}
+					else if (G_VALUE_HOLDS (gv, G_TYPE_DATE_TIME))
+						{
+							ret = g_date_time_ref ((GDateTime *)g_value_get_boxed (gv));
 						}
 					else
 						{
