@@ -1,10 +1,16 @@
-libzakutils (0.0.1-1~1.gbp4727e8) UNRELEASED; urgency=medium
+libzakutils (0.0.1-1~2.gbp8e2bcc) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @4727e802db11104c374fe8eb9a234287a3ce6a74 **
+  ** SNAPSHOT build @8e2bccf04d4f7a00daa82709bd76b73322b96914 **
 
   [ Andrea Zagli ]
   * Initial release
 
   [ tux ]
 
- -- Andrea Zagli <azagli@libero.it>  Sat, 21 May 2016 10:30:59 +0200
+  [ Andrea Zagli ]
+  * Ref of GDateTime in ::ghashtable_get_gdatetime.
+  * Added boxed type in ::ghashtable_get_gdatetime.
+
+  [ tux ]
+
+ -- tux <tux@develop64.comune.scandicci.fi.it>  Sat, 11 Mar 2017 10:18:22 +0100
