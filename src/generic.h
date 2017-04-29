@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Andrea Zagli <azagli@libero.it>
+ * Copyright (C) 2015-2017 Andrea Zagli <azagli@libero.it>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,8 +31,8 @@ G_BEGIN_DECLS
 gboolean zak_utils_file_exists (const gchar *filename);
 
 gchar *zak_utils_string_replace (const gchar *string,
-								 const gchar *origin,
-								 const gchar *replace);
+                                 const gchar *origin,
+                                 const gchar *replace);
 
 gdouble zak_utils_round (gdouble value, guint n_decimals);
 
@@ -64,6 +64,8 @@ gfloat zak_utils_ghashtable_get_float (GHashTable *ht, gconstpointer key);
 gchar *zak_utils_ghashtable_get_float_format (GHashTable *ht, gconstpointer key, gint decimals, const gchar *thousands_separator, const gchar *currency_symbol);
 GDateTime *zak_utils_ghashtable_get_gdatetime (GHashTable *ht, gconstpointer key);
 gchar *zak_utils_ghashtable_get_gdatetime_format (GHashTable *ht, gconstpointer key, const gchar *format);
+
+void zak_utils_ghashtable_copy (GHashTable *ht_source, GHashTable *ht_dest);
 
 
 G_END_DECLS
