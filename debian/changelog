@@ -1,6 +1,6 @@
-libzakutils (0.0.1-1~2.gbp12ed2d) UNRELEASED; urgency=medium
+libzakutils (0.0.1-1~3.gbpfb1723) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @12ed2d358cbc8ccb2cdf27ad2d35f267f209f424 **
+  ** SNAPSHOT build @fb1723aa437506f21744801599cbd74edc9ae7d9 **
 
   [ Andrea Zagli ]
   * Initial release
@@ -13,4 +13,11 @@ libzakutils (0.0.1-1~2.gbp12ed2d) UNRELEASED; urgency=medium
 
   [ tux ]
 
- -- tux <tux@develop64.comune.scandicci.fi.it>  Wed, 01 Mar 2017 15:10:27 +0100
+  [ Andrea Zagli ]
+  * Debian pkg: updated from upstream.
+  * Added function ::ghashtable_copy.
+  * Possible glib bug: valid date with values out of range.
+
+  [ tux ]
+
+ -- tux <tux@develop64.comune.scandicci.fi.it>  Sun, 21 May 2017 09:51:21 +0200
