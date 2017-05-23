@@ -858,3 +858,25 @@ gchar
 
 	return ret;
 }
+
+/**
+ * zak_utils_ghashtable_copy:
+ * @ht_source:
+ * @ht_dest:
+ *
+ * Copies the source #GHashTable into the destination, as is.
+ */
+void
+zak_utils_ghashtable_copy (GHashTable *ht_source, GHashTable *ht_dest)
+{
+	GHashTableIter iter;
+
+	gpointer key;
+	gpointer value;
+
+	g_hash_table_iter_init (&iter, ht_source);
+	while (g_hash_table_iter_next (&iter, &key, &value))
+		{
+			g_hash_table_replace (ht_dest, key, value);
+		}
+}
