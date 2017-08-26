@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Andrea Zagli <azagli@libero.it>
+ * Copyright (C) 2015-2017 Andrea Zagli <azagli@libero.it>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -497,6 +497,19 @@ GDateTime
 			                             hour,
 			                             minute,
 			                             seconds);
+
+			/* possible glib bug
+			 * returns a valid date also if day/month values are out of range */
+			if (g_date_time_get_year (ret) != year
+			    || g_date_time_get_month (ret) != month
+			    || g_date_time_get_day_of_month (ret) != day
+			    || g_date_time_get_hour (ret) != hour
+			    || g_date_time_get_minute (ret) != minute
+			    || g_date_time_get_seconds (ret) != seconds)
+				{
+					g_date_time_unref (ret);
+					ret = NULL;
+				}
 		}
 
 	return ret;

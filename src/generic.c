@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Andrea Zagli <azagli@libero.it>
+ * Copyright (C) 2015-2017 Andrea Zagli <azagli@libero.it>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,6 +26,7 @@
 #include <locale.h>
 
 #include "generic.h"
+#include "datetime.h"
 
 
 /**
@@ -509,7 +510,8 @@ zak_utils_string_to_boolean (const gchar *str)
 			|| strcasecmp (str_value, "f") == 0
 			|| strcasecmp (str_value, "false") == 0
 			|| strcasecmp (str_value, "n") == 0
-			|| strcasecmp (str_value, "no") == 0)
+			|| strcasecmp (str_value, "no") == 0
+			|| strcasecmp (str_value, "off") == 0)
 		{
 			bool_value = FALSE;
 		}
@@ -517,7 +519,8 @@ zak_utils_string_to_boolean (const gchar *str)
 			|| strcasecmp (str_value, "t") == 0
 			|| strcasecmp (str_value, "true") == 0
 			|| strcasecmp (str_value, "y") == 0
-			|| strcasecmp (str_value, "yes") == 0)
+			|| strcasecmp (str_value, "yes") == 0
+			|| strcasecmp (str_value, "on") == 0)
 		{
 			bool_value = TRUE;
 		}
@@ -525,4 +528,355 @@ zak_utils_string_to_boolean (const gchar *str)
 	g_free (str_value);
 
 	return bool_value;
+}
+
+/**
+ * zak_utils_ghashtable_get_string:
+ * @ht:
+ * @key:
+ *
+ * Returns: returns the #gchar value of @key in @ht.
+ * Value must holds a #GValue that holds a string, or a #gchar.
+ */
+gchar
+*zak_utils_ghashtable_get_string (GHashTable *ht, gconstpointer key)
+{
+	gchar *ret;
+
+	gpointer gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL)
+		{
+			ret = g_strdup ("");
+		}
+	else
+		{
+			if (G_IS_VALUE ((GValue *)gv))
+				{
+					if (G_VALUE_HOLDS_STRING ((GValue *)gv))
+						{
+							ret = g_value_dup_string ((GValue *)gv);
+						}
+					else
+						{
+							ret = g_strdup ("");
+						}
+				}
+			else
+				{
+					ret = g_strdup ((gchar *)gv);
+				}
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_boolean:
+ * @ht:
+ * @key:
+ *
+ * Returns: returns the #gboolean value of @key in @ht.
+ * Value must holds a #GValue that holds a boolean, or a #gchar to be converted with #zak_utils_string_to_boolean.
+ */
+gboolean
+zak_utils_ghashtable_get_boolean (GHashTable *ht, gconstpointer key)
+{
+	gboolean ret;
+
+	gpointer gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL)
+		{
+			ret = FALSE;
+		}
+	else
+		{
+			if (G_IS_VALUE ((GValue *)gv))
+				{
+					if (G_VALUE_HOLDS_BOOLEAN ((GValue *)gv))
+						{
+							ret = zak_utils_string_to_boolean (g_value_get_string ((GValue *)gv));
+						}
+					else
+						{
+							ret = FALSE;
+						}
+				}
+			else
+				{
+					ret = zak_utils_string_to_boolean ((gchar *)gv);
+				}
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_int:
+ * @ht:
+ * @key:
+ *
+ * Returns: returns the #gint value of @key in @ht.
+ * Value must holds a #GValue that holds a #gint, or a previously converted int with #GINT_TO_POINTER.
+ */
+gint
+zak_utils_ghashtable_get_int (GHashTable *ht, gconstpointer key)
+{
+	gint ret;
+
+	gpointer gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL)
+		{
+			ret = 0;
+		}
+	else
+		{
+			if (G_IS_VALUE ((GValue *)gv))
+				{
+					if (G_VALUE_HOLDS_INT (gv))
+						{
+							ret = g_value_get_int (gv);
+						}
+					else
+						{
+							ret = 0;
+						}
+				}
+			else
+				{
+					ret = GPOINTER_TO_INT (gv);
+				}
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_int_format:
+ * @ht:
+ * @key:
+ * @thousands_separator:
+ *
+ * Returns: returns the formatted version of the #gint value of @key in @ht.
+ * Value must holds a #GValue that holds a #gint, or a previously converted int with #GINT_TO_POINTER.
+ */
+gchar
+*zak_utils_ghashtable_get_int_format (GHashTable *ht, gconstpointer key, const gchar *thousands_separator)
+{
+	return zak_utils_format_money_full ((gdouble)zak_utils_ghashtable_get_int (ht, key), 0, thousands_separator, NULL);
+}
+
+/**
+ * zak_utils_ghashtable_get_double:
+ * @ht:
+ * @key:
+ *
+ * Returns: returns the #gdouble of @key in @ht.
+ * Value must holds a #GValue that holds a #gdouble, or it tries to convert a #gchar with #g_strtod.
+ */
+gdouble
+zak_utils_ghashtable_get_double (GHashTable *ht, gconstpointer key)
+{
+	gdouble ret;
+
+	gpointer gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL)
+		{
+			ret = 0.0;
+		}
+	else
+		{
+			if (G_IS_VALUE ((GValue *)gv))
+				{
+					if (G_VALUE_HOLDS_DOUBLE (gv))
+						{
+							ret = g_value_get_double (gv);
+						}
+					else
+						{
+							ret = 0.0;
+						}
+				}
+			else
+				{
+					ret = g_strtod ((gchar *)gv, NULL);
+				}
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_double_format:
+ * @ht:
+ * @key:
+ * @decimals
+ * @thousands_separator:
+ * @currency_symbol:
+ *
+ * Returns: returns the formatted version of the #gdouble of @key in @ht.
+ * Value must holds a #GValue that holds a #gdouble, or it tries to convert a #gchar with #g_strtod.
+ */
+gchar
+*zak_utils_ghashtable_get_double_format (GHashTable *ht, gconstpointer key, gint decimals, const gchar *thousands_separator, const gchar *currency_symbol)
+{
+	return zak_utils_format_money_full (zak_utils_ghashtable_get_double (ht, key), decimals, thousands_separator, currency_symbol);
+}
+
+/**
+ * zak_utils_ghashtable_get_float:
+ * @ht:
+ * @key:
+ *
+ * Returns: returns the #gfloat of @key in @ht.
+ * Value must holds a #GValue that holds a #gfloat, or it tries to convert a #gchar with #g_strtod.
+ */
+gfloat
+zak_utils_ghashtable_get_float (GHashTable *ht, gconstpointer key)
+{
+	gfloat ret;
+
+	gpointer gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL)
+		{
+			ret = 0.0;
+		}
+	else
+		{
+			if (G_IS_VALUE ((GValue *)gv))
+				{
+					if (G_VALUE_HOLDS_FLOAT (gv))
+						{
+							ret = g_value_get_float (gv);
+						}
+					else
+						{
+							ret = 0.0f;
+						}
+				}
+			else
+				{
+					ret = (gfloat)g_strtod ((gchar *)gv, NULL);
+				}
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_float_format:
+ * @ht:
+ * @key:
+ * @decimals
+ * @thousands_separator:
+ * @currency_symbol:
+ *
+ * Returns: returns the fomatted version of the #gfloat of @key in @ht.
+ * Value must holds a #GValue that holds a #gfloat, or it tries to convert a #gchar with #g_strtod.
+ */
+gchar
+*zak_utils_ghashtable_get_float_format (GHashTable *ht, gconstpointer key, gint decimals, const gchar *thousands_separator, const gchar *currency_symbol)
+{
+	return zak_utils_format_money_full ((gdouble)zak_utils_ghashtable_get_float (ht, key), decimals, thousands_separator, currency_symbol);
+}
+
+/**
+ * zak_utils_ghashtable_get_gdatetime:
+ * @ht:
+ * @key:
+ *
+ * Returns: returns the #GDateTime of @key in @ht.
+ * Value must holds a #GValue that holds a #GDateTime, or a #GDateTime.
+ */
+GDateTime
+*zak_utils_ghashtable_get_gdatetime (GHashTable *ht, gconstpointer key)
+{
+	GDateTime *ret;
+
+	gpointer gv;
+
+	gv = g_hash_table_lookup (ht, key);
+	if (gv == NULL)
+		{
+			ret = NULL;
+		}
+	else
+		{
+			if (G_IS_VALUE ((GValue *)gv))
+				{
+					if (G_VALUE_HOLDS_POINTER (gv))
+						{
+							ret = g_date_time_ref ((GDateTime *)g_value_get_pointer (gv));
+						}
+					else if (G_VALUE_HOLDS (gv, G_TYPE_DATE_TIME))
+						{
+							ret = g_date_time_ref ((GDateTime *)g_value_get_boxed (gv));
+						}
+					else
+						{
+							ret = NULL;
+						}
+				}
+			else
+				{
+					ret = (GDateTime *)gv;
+				}
+		}
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_get_gdatetime_format:
+ * @ht:
+ * @key:
+ * @format:
+ *
+ * Returns: returns the formatted version of the #GDateTime of @key in @ht.
+ * Value must holds a #GValue that holds a #GDateTime, or a #GDateTime.
+ */
+gchar
+*zak_utils_ghashtable_get_gdatetime_format (GHashTable *ht, gconstpointer key, const gchar *format)
+{
+	gchar *ret;
+
+	GDateTime *gdt;
+
+	gdt = zak_utils_ghashtable_get_gdatetime (ht, key);
+	ret = zak_utils_gdatetime_format (gdt, format);
+
+	g_date_time_unref (gdt);
+
+	return ret;
+}
+
+/**
+ * zak_utils_ghashtable_copy:
+ * @ht_source:
+ * @ht_dest:
+ *
+ * Copies the source #GHashTable into the destination, as is.
+ */
+void
+zak_utils_ghashtable_copy (GHashTable *ht_source, GHashTable *ht_dest)
+{
+	GHashTableIter iter;
+
+	gpointer key;
+	gpointer value;
+
+	g_hash_table_iter_init (&iter, ht_source);
+	while (g_hash_table_iter_next (&iter, &key, &value))
+		{
+			g_hash_table_replace (ht_dest, key, value);
+		}
 }
