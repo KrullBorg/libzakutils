@@ -1,6 +1,6 @@
-libzakutils (0.0.1-1~3.gbpccf35a) UNRELEASED; urgency=medium
+libzakutils (0.0.2-1~2.gbp6181cb) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @ccf35afc796c27035e8adba1b3e44454fbaed0c5 **
+  ** SNAPSHOT build @6181cb1a0e5fb36e3ceb1906bfbb7f1b111f9115 **
 
   [ Andrea Zagli ]
   * Initial release
@@ -20,4 +20,8 @@ libzakutils (0.0.1-1~3.gbpccf35a) UNRELEASED; urgency=medium
 
   [ tux ]
 
- -- tux <tux@develop64.comune.scandicci.fi.it>  Tue, 23 May 2017 08:57:05 +0200
+  [ Andrea Zagli ]
+  * Debian pkg: updates from upstream.
+  * Setted version 0.0.2.
+
+ -- andreaz <andreaz@ghost.zagli-it.it>  Wed, 27 Sep 2017 20:52:27 +0200
